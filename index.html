@@ -5,7 +5,7 @@
     <script>
         function searchSheet() {
             const searchTerm = document.getElementById("searchBox").value.toLowerCase();
-            const sheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tq=";
+            const sheetUrl = "https://docs.google.com/spreadsheets/d/1i_vZgNOlAS6NTKtShRMO4GO8nti0UTttPgjf3IMebnE";
             const query = `select * where lower(A) contains '${searchTerm}'`;
             fetch(sheetUrl + encodeURIComponent(query))
                 .then(res => res.text())
