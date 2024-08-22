@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Sheet</title>
+    <script>
+        function searchSheet() {
+            const searchTerm = document.getElementById("searchBox").value.toLowerCase();
+            const sheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tq=";
+            const query = `select * where lower(A) contains '${searchTerm}'`;
+            fetch(sheetUrl + encodeURIComponent(query))
+                .then(res => res.text())
+                .then(data => {
+                    const json = JSON.parse(data.substr(47).slice(0,-2));
+                    const table = document.createElement("table");
+                    json.table.rows.forEach(row => {
+                        const tr = document.createElement("tr");
+                        row.c.forEach(cell => {
+                            const td = document.createElement("td");
+                            td.textContent = cell.v || "";
+                            tr.appendChild(td);
+                        });
+                        table.appendChild(tr);
+                    });
+                    document.getElementById("results").innerHTML = "";
+                    document.getElementById("results").appendChild(table);
+                });
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="searchBox" placeholder="Search...">
+    <button onclick="searchSheet()">Search</button>
+    <div id="results"></div>
+</body>
+</html>
